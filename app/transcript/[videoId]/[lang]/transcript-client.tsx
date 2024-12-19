@@ -16,13 +16,11 @@ interface TranscriptItem {
 
 interface TranscriptClientProps {
   transcript: TranscriptItem[];
-  videoId: string;
   lang: string;
 }
 
 export default function TranscriptClient({
   transcript,
-  videoId,
   lang,
 }: TranscriptClientProps) {
   const { toast } = useToast();
@@ -47,7 +45,7 @@ export default function TranscriptClient({
   }, [toast, transcript]);
 
   return (
-    <>
+    <div className="h-full flex flex-col gap-4 mt-8">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Badge variant="secondary">{lang}</Badge>
@@ -60,16 +58,18 @@ export default function TranscriptClient({
         </Link>
       </div>
 
-      <ScrollArea className="max-h-[70vh] space-y-4 p-4 bg-white">
-        {transcript.map((item, idx) => (
-          <div key={idx} className="space-y-1">
-            <p className="text-sm leading-normal break-words whitespace-pre-wrap">
-              {item.text}
-            </p>
-            {idx < transcript.length - 1 && <Separator className="my-2" />}
-          </div>
-        ))}
+      <ScrollArea className="h-[calc(100vh-200px)] rounded-md mt-8">
+        <div className="space-y-4 p-4">
+          {transcript.map((item, idx) => (
+            <div key={idx} className="space-y-1">
+              <p className="text-sm leading-normal break-words whitespace-pre-wrap">
+                {item.text}
+              </p>
+              {idx < transcript.length - 1 && <Separator className="my-2" />}
+            </div>
+          ))}
+        </div>
       </ScrollArea>
-    </>
+    </div>
   );
 }

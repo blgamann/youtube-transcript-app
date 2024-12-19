@@ -69,7 +69,7 @@ export default async function TranscriptPage({ params }: PageProps) {
         transcript 데이터를 클라이언트 컴포넌트로 넘겨서 toast 및 copy 기능 구현
       */}
       {/* transcript와 videoId, lang도 같이 전달 */}
-      <TranscriptClient transcript={transcript} videoId={videoId} lang={lang} />
+      <TranscriptClient transcript={transcript} lang={lang} />
     </div>
   );
 }

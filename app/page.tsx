@@ -38,44 +38,48 @@ export default function Page() {
       } else {
         setError(data.error || "언어 목록을 가져오는 데 실패했습니다.");
       }
-    } catch (err: any) {
-      setError(err.message || "에러가 발생했습니다.");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "에러가 발생했습니다.");
     }
 
     setLoading(false);
   };
 
   return (
-    <div className="p-4 max-w-xl mx-auto space-y-4">
-      <h1 className="text-2xl font-bold">YouTube 자막 언어 선택</h1>
-      <SubtitleForm onSubmit={handleSubmit} />
-      {loading && <p>로딩 중...</p>}
-      {error && <p className="text-red-500">{error}</p>}
-      {videoId && languages.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle>가능한 자막 언어</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              {languages.map((item, idx) => (
-                <div key={idx}>
-                  <Button variant="outline" asChild>
-                    <a
-                      href={`/transcript/${videoId}/${item.lang}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {item.language_name}
-                    </a>
-                  </Button>
-                  {idx < languages.length - 1 && <Separator className="my-2" />}
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
+    <div className="min-h-screen flex items-start justify-center pt-[25vh]">
+      <div className="p-4 w-full max-w-xl space-y-4">
+        <h1 className="text-2xl font-bold">YouTube Transcript</h1>
+        <SubtitleForm onSubmit={handleSubmit} />
+        {loading && <p>로딩 중...</p>}
+        {error && <p className="text-red-500">{error}</p>}
+        {videoId && languages.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle>가능한 자막 언어</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {languages.map((item, idx) => (
+                  <div key={idx}>
+                    <Button variant="outline" asChild>
+                      <a
+                        href={`/transcript/${videoId}/${item.lang}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {item.language_name}
+                      </a>
+                    </Button>
+                    {idx < languages.length - 1 && (
+                      <Separator className="my-2" />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+      </div>
     </div>
   );
 }
