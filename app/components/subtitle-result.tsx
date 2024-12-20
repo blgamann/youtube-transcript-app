@@ -15,9 +15,12 @@ export async function POST(request: NextRequest) {
       lang: lang,
     });
     return NextResponse.json({ transcript });
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { error: error.message || "Failed to fetch transcript" },
+      {
+        error:
+          error instanceof Error ? error.message : "Failed to fetch transcript",
+      },
       { status: 500 }
     );
   }

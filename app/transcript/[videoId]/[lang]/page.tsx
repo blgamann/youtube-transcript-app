@@ -47,14 +47,18 @@ export default async function TranscriptPage({ params }: PageProps) {
   let transcript: TranscriptItem[];
   try {
     transcript = await getSubtitles(videoId, lang);
-  } catch (error: any) {
+  } catch (error: unknown) {
     return (
       <div className="p-4 max-w-xl mx-auto">
         <div className="space-y-4">
           <h2 className="text-red-500 text-xl font-semibold">
             자막을 불러오는 데 실패했습니다.
           </h2>
-          <p className="text-sm text-gray-600">{error.message}</p>
+          <p className="text-sm text-gray-600">
+            {error instanceof Error
+              ? error.message
+              : "Failed to fetch transcript"}
+          </p>
         </div>
       </div>
     );
